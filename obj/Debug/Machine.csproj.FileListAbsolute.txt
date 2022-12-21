@@ -1,0 +1,53 @@
+D:\Research\projects\ECS\Machine\bin\Debug\Machine.exe.config
+D:\Research\projects\ECS\Machine\bin\Debug\Machine.exe
+D:\Research\projects\ECS\Machine\bin\Debug\Machine.pdb
+D:\Research\projects\ECS\Machine\bin\Debug\SimpleComponents.pdb
+D:\Research\projects\ECS\Machine\obj\Debug\Machine.csprojResolveAssemblyReference.cache
+D:\Research\projects\ECS\Machine\obj\Debug\Machine.exe
+D:\Research\projects\ECS\Machine\obj\Debug\Machine.pdb
+D:\Research\projects\ECS\Machine\bin\Debug\SimpleComponents.exe
+D:\Research\projects\ECS\Machine\obj\Debug\Machine.ScreenUI.resources
+D:\Research\projects\ECS\Machine\obj\Debug\Machine.csproj.GenerateResource.Cache
+D:\Research\projects\ECS\Machine\bin\Debug\Assembler.exe
+D:\Research\projects\ECS\Machine\bin\Debug\Assembler.pdb
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\bin\Debug\Machine.exe.config
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\bin\Debug\Machine.exe
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\bin\Debug\Machine.pdb
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\bin\Debug\Assembler.exe
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\bin\Debug\SimpleComponents.exe
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\bin\Debug\Assembler.pdb
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\bin\Debug\Assembler.exe.config
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\bin\Debug\SimpleComponents.pdb
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\bin\Debug\SimpleComponents.exe.config
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\obj\Debug\Machine.ScreenUI.resources
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\obj\Debug\Machine.csproj.GenerateResource.cache
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\obj\Debug\Machine.csproj.CoreCompileInputs.cache
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\obj\Debug\Machine.csproj.CopyComplete
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\obj\Debug\Machine.exe
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\obj\Debug\Machine.pdb
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\obj\Debug\Machine.csproj.AssemblyReference.cache
+C:\Users\Guy\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\bin\Debug\Machine.exe.config
+C:\Users\Guy\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\bin\Debug\Machine.exe
+C:\Users\Guy\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\bin\Debug\Machine.pdb
+C:\Users\Guy\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\bin\Debug\Assembler.exe
+C:\Users\Guy\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\bin\Debug\SimpleComponents.exe
+C:\Users\Guy\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\bin\Debug\Assembler.pdb
+C:\Users\Guy\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\bin\Debug\Assembler.exe.config
+C:\Users\Guy\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\bin\Debug\SimpleComponents.pdb
+C:\Users\Guy\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\bin\Debug\SimpleComponents.exe.config
+C:\Users\Guy\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\obj\Debug\Machine.csproj.AssemblyReference.cache
+C:\Users\Guy\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\obj\Debug\Machine.ScreenUI.resources
+C:\Users\Guy\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\obj\Debug\Machine.csproj.GenerateResource.cache
+C:\Users\Guy\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\obj\Debug\Machine.csproj.CoreCompileInputs.cache
+C:\Users\Guy\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\obj\Debug\Machine.csproj.CopyComplete
+C:\Users\Guy\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\obj\Debug\Machine.exe
+C:\Users\Guy\OneDrive - Ben Gurion University of the Negev\Research\projects\ECS\Machine\obj\Debug\Machine.pdb
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Teaching\ECS\2021\Ex2.2\Code\Machine\obj\Debug\Machine.ScreenUI.resources
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Teaching\ECS\2021\Ex2.2\Code\Machine\obj\Debug\Machine.csproj.GenerateResource.cache
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Teaching\ECS\2021\Ex2.2\Code\Machine\obj\Debug\Machine.csproj.CoreCompileInputs.cache
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Teaching\ECS\2021\Ex2.2\Code\Machine\obj\Debug\Machine.exe
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Teaching\ECS\2021\Ex2.2\Code\Machine\obj\Debug\Machine.pdb
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Teaching\ECS\2021\Ex2.2\Code\Machine\bin\Debug\Machine.exe.config
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Teaching\ECS\2021\Ex2.2\Code\Machine\bin\Debug\Machine.exe
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Teaching\ECS\2021\Ex2.2\Code\Machine\bin\Debug\Machine.pdb
+C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Teaching\ECS\2021\Ex2.2\Code\Machine\obj\Debug\Machine.csproj.AssemblyReference.cache

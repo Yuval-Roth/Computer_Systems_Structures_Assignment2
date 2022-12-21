@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{271F09E5-85F0-4990-AA8B-05E70CD913CF}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Machine</RootNamespace>
+    <AssemblyName>Machine</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ALU.cs" />
+    <Compile Include="AndGate.cs" />
+    <Compile Include="BitwiseAndGate.cs" />
+    <Compile Include="BitwiseBooleanGate.cs" />
+    <Compile Include="BitwiseDemux.cs" />
+    <Compile Include="BitwiseMultiwayDemux.cs" />
+    <Compile Include="BitwiseMultiwayMux.cs" />
+    <Compile Include="BitwiseMux.cs" />
+    <Compile Include="BitwiseNotGate.cs" />
+    <Compile Include="BitwiseOrGate.cs" />
+    <Compile Include="BooleanGate.cs" />
+    <Compile Include="Clock.cs" />
+    <Compile Include="ComplexALU.cs" />
+    <Compile Include="Component.cs" />
+    <Compile Include="Counter.cs" />
+    <Compile Include="CPU16.cs" />
+    <Compile Include="Demux.cs" />
+    <Compile Include="Gate.cs" />
+    <Compile Include="Memory.cs" />
+    <Compile Include="MemoryMappedIO.cs" />
+    <Compile Include="MultiBitRegister.cs" />
+    <Compile Include="MuxGate.cs" />
+    <Compile Include="NAndGate.cs" />
+    <Compile Include="NotGate.cs" />
+    <Compile Include="OrGate.cs" />
+    <Compile Include="ScreenUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScreenUI.Designer.cs">
+      <DependentUpon>ScreenUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Keyboard.cs" />
+    <Compile Include="Machine16.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Screen.cs" />
+    <Compile Include="SequentialGate.cs" />
+    <Compile Include="Wire.cs" />
+    <Compile Include="WireSet.cs" />
+    <Compile Include="XorGate.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Assembler\Assembler.csproj">
+      <Project>{fd908cd9-eb34-48ef-81da-73cbb9570c8b}</Project>
+      <Name>Assembler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleComponents\SimpleComponents.csproj">
+      <Project>{777b0629-2ba9-46d5-ae21-317c16e52ca1}</Project>
+      <Name>SimpleComponents</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ScreenUI.resx">
+      <DependentUpon>ScreenUI.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,58 @@
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\Copy1To0.hack'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\Add01To2.hack'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\SimpleLoop.hack'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\Sum100To200.hack'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\TestJumping.hack'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\Product.hack'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\Power.hack'.
+errors=7
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\Copy1To0.hack'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\Add01To2.hack'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\SimpleLoop.hack'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\Sum100To200.hack'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\TestJumping.hack'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\Product.hack'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\Power.hack'.
+errors=7
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\Copy1To0.hack'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\Add01To2.hack'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\SimpleLoop.hack'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\Sum100To200.hack'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\TestJumping.hack'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\Product.hack'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\Power.hack'.
+errors=7
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\Fibonacci.asm'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\Power.asm'.
+Could not find file 'D:\Research\projects\ECS\Machine\bin\Debug\Div.asm'.
+errors=3
+Testing Fibonacci
+Could not find file Fibonacci.asm
+Testing Fibonacci
+Testing Fibonacci
+Testing Fibonacci
+Testing Fibonacci
+Testing simple translation
+Could not find assembly file
+Testing jumping translation
+Could not find assembly file
+Testing complex translations
+Could not find assembly file
+Testing jumping translation
+Could not find assembly file
+Testing simple translation
+Could not find assembly file
+Testing jumping translation
+Could not find assembly file
+Testing complex translations
+Could not find assembly file
+Testing jumping translation
+Could not find assembly file
+Testing simple translation
+Could not find assembly file
+Testing jumping translation
+Could not find assembly file
+Testing complex translations
+Could not find assembly file
+Testing jumping translation
+Could not find assembly file
