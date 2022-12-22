@@ -1,6 +1,7 @@
 ﻿using SimpleComponents;
 using System;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace Machine
 {
@@ -104,22 +105,29 @@ namespace Machine
         private NotGate JNE;
         private Wire JMP;
 
-        #region MultiBitMux class
+        #region MultiwayMux class
 
-        class MultiBitMux
+        /// <summary>
+        /// © Yuval Roth
+        /// </summary>
+        class MultiwayMux
         {
             private MuxGate[] gates;
             private readonly int ControlBits;
             private Wire[] Inputs;
             private Wire[] Controls;
 
+            public Wire Output { get; private set; }
+
+
             /// <param name="ControlBits">The amount of control bits</param>
-            public MultiBitMux(int ControlBits)
+            public MultiwayMux(int ControlBits)
             {
                 this.ControlBits = ControlBits;
                 gates = new MuxGate[(int)Math.Pow(2, ControlBits) - 1];
                 Inputs = new Wire[(int)Math.Pow(2, ControlBits)];
                 Controls = new Wire[ControlBits];
+                Output = new Wire();
                 BuildHeap(0);
                 ConnectWires();
                 ConnectControls();
@@ -175,6 +183,8 @@ namespace Machine
                     Lastlevel[i].ConnectInput1(Inputs[j]);
                     Lastlevel[i].ConnectInput2(Inputs[j + 1]);
                 }
+                MuxGate[] root = GetLevel(0);
+                Output.ConnectInput(root[0].Output);
             }
 
             private void ConnectControls()
@@ -208,7 +218,7 @@ namespace Machine
         }
         #endregion
         
-        private MultiBitMux Jump_Mux;
+        private MultiwayMux Jump_Mux;
 
         private void ConnectControls()
         {
@@ -283,12 +293,20 @@ namespace Machine
             JMP.Value = 1;
 
             //9. connect jump mux (this is the most complicated part)
-            Jump_Mux = new MultiBitMux(3);
-
-            
-
+            Jump_Mux = new MultiwayMux(3);
+            Jump_Mux.ConnectInput(1, JGT.Output);
+            Jump_Mux.ConnectInput(2, JEQ);
+            Jump_Mux.ConnectInput(3, JGE.Output);
+            Jump_Mux.ConnectInput(4, JLT.Output);
+            Jump_Mux.ConnectInput(5, JNE.Output);
+            Jump_Mux.ConnectInput(6, JLE.Output);
+            Jump_Mux.ConnectInput(7, JMP);
+            Jump_Mux.ConnectControl(0,Instruction[J0]);
+            Jump_Mux.ConnectControl(1, Instruction[J1]);
+            Jump_Mux.ConnectControl(2, Instruction[J2]);
 
             //10. connect PC load control
+            m_rPC.Load.ConnectInput(Jump_Mux.Output);
         }
 
 
