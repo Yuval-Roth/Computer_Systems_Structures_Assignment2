@@ -51,3 +51,13 @@ C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Teaching\ECS\2021
 C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Teaching\ECS\2021\Ex2.2\Code\Machine\bin\Debug\Machine.exe
 C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Teaching\ECS\2021\Ex2.2\Code\Machine\bin\Debug\Machine.pdb
 C:\Users\shanigu\OneDrive - Ben Gurion University of the Negev\Teaching\ECS\2021\Ex2.2\Code\Machine\obj\Debug\Machine.csproj.AssemblyReference.cache
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\bin\Debug\Machine.exe.config
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\bin\Debug\Machine.exe
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\bin\Debug\Machine.pdb
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\obj\Debug\Machine.csproj.AssemblyReference.cache
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\obj\Debug\Machine.csproj.SuggestedBindingRedirects.cache
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\obj\Debug\Machine.ScreenUI.resources
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\obj\Debug\Machine.csproj.GenerateResource.cache
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\obj\Debug\Machine.csproj.CoreCompileInputs.cache
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\obj\Debug\Machine.exe
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\obj\Debug\Machine.pdb

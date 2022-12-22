@@ -126,7 +126,15 @@ namespace Machine
                 this.ControlBits = ControlBits;
                 gates = new MuxGate[(int)Math.Pow(2, ControlBits) - 1];
                 Inputs = new Wire[(int)Math.Pow(2, ControlBits)];
+                for(int i = 0; i< Inputs.Length; i++)
+                {
+                    Inputs[i] = new Wire();
+                }
                 Controls = new Wire[ControlBits];
+                for (int i = 0; i < Controls.Length; i++) 
+                {
+                    Controls[i] = new Wire();
+                }
                 Output = new Wire();
                 BuildHeap(0);
                 ConnectWires();

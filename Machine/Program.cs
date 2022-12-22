@@ -13,22 +13,44 @@ namespace Machine
         [STAThread]
         static void Main(string[] args)
         {
+            string[] paths = new string[]
+            {
+                //"Add.hack",
+                //"Add01To2.hack",
+                //"Copy1To0.hack",
+                //"Max.hack",
+                //"MaxL.hack",
+                //"Product.hack",
+                //"ScreenExample.hack",
+                //"SimpleLoop.hack",
+                //"Sum100To200.hack",
+                //"TestJumping.hack",
+
+            };
+            foreach(string path in paths)
+            {
+                RunProgram(path);
+            }
+            
+        }
+
+        private static void RunProgram(string FileName)
+        {
             Machine16 machine = new Machine16(false, true);
-            machine.Code.LoadFromFile(@"D:\Teaching\ECS\Excersises\Ex2\Assembly examples\ScreenExample.hack");
+            machine.Code.LoadFromFile(@"C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Binary Code\"+FileName);
             machine.Data[0] = 100;
             machine.Data[1] = 15;
             DateTime dtStart = DateTime.Now;
             machine.Reset();
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < machine.Code.AddressSize; i++)
             {
                 machine.CPU.PrintState();
                 Console.WriteLine();
                 Clock.ClockDown();
                 Clock.ClockUp();
             }
-            
 
-            Console.WriteLine("Done " + (DateTime.Now - dtStart).TotalSeconds);
+            Console.WriteLine("Done "+FileName+" "+ (DateTime.Now - dtStart).TotalSeconds);
             Console.ReadLine();
         }
     }
