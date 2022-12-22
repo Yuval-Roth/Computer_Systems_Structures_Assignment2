@@ -1,5 +1,6 @@
 ﻿using SimpleComponents;
 using System;
+using System.Windows.Forms;
 
 namespace Machine
 {
@@ -82,17 +83,132 @@ namespace Machine
 
             ConnectControls();
         }
-
+        
         //Add gates for control implementation here
 
-        BitwiseMux A_Input_Mux;
-        BitwiseMux A_Or_M_Mux;
-        WireSet ALU_Control;
-        AndGate D_Load_AndGate;
-        OrGate A_Load_OrGate;
-        AndGate A_Load_AndGate;
-        NotGate A_Load_NotGate;
-        AndGate MemoryWrite_AndGate;
+        private BitwiseMux A_Input_Mux;
+        private BitwiseMux A_Or_M_Mux;
+        private WireSet ALU_Control;
+        private AndGate D_Load_AndGate;
+        private OrGate A_Load_OrGate;
+        private AndGate A_Load_AndGate;
+        private NotGate A_Load_NotGate;
+        private AndGate MemoryWrite_AndGate;
+        private NotGate JGT;
+        private OrGate JGT_Or;
+        private Wire JEQ;
+        private OrGate JLT_Or;
+        private NotGate JLT;
+        private OrGate JGE;
+        private OrGate JLE;
+        private NotGate JNE;
+        private Wire JMP;
+
+        #region MultiBitMux class
+
+        class MultiBitMux
+        {
+            private MuxGate[] gates;
+            private readonly int ControlBits;
+            private Wire[] Inputs;
+            private Wire[] Controls;
+
+            /// <param name="ControlBits">The amount of control bits</param>
+            public MultiBitMux(int ControlBits)
+            {
+                this.ControlBits = ControlBits;
+                gates = new MuxGate[(int)Math.Pow(2, ControlBits) - 1];
+                Inputs = new Wire[(int)Math.Pow(2, ControlBits)];
+                Controls = new Wire[ControlBits];
+                BuildHeap(0);
+                ConnectWires();
+                ConnectControls();
+            }
+
+            /// <summary>
+            /// first wire is at index 0 <br/>
+            /// last wire is at index 2^(ControlBits) - 1
+            /// </summary>
+            /// <param name="i">Index</param>
+            /// <param name="Input">Input bit at Index</param>
+            public void ConnectInput(int i, Wire Input)
+            {
+                Inputs[i] = Input;
+            }
+
+            /// <summary>
+            /// LSB is at index 0 <br/>
+            /// MSB is at index ControlBits - 1 
+            /// </summary>
+            /// <param name="i">Index</param>
+            /// <param name="Control">Control bit at Index</param>
+            public void ConnectControl(int i, Wire Control)
+            {
+                Controls[i] = Control;
+            }
+
+            private void BuildHeap(int current)
+            {
+                if (current == 0) gates[current] = new MuxGate();
+
+                //Left son
+                if (current * 2 + 1 < gates.Length)
+                {
+                    gates[current * 2 + 1] = new MuxGate();
+                    gates[current].ConnectInput1(gates[current * 2 + 1].Output);
+                    BuildHeap(current * 2 + 1);
+                }
+                //Right son
+                if (current * 2 + 2 < gates.Length)
+                {
+                    gates[current * 2 + 2] = new MuxGate();
+                    gates[current].ConnectInput2(gates[current * 2 + 2].Output);
+                    BuildHeap(current * 2 + 2);
+                }
+            }
+
+            private void ConnectWires()
+            {
+                MuxGate[] Lastlevel = GetLevel(ControlBits - 1);
+                for (int i = 0, j = 0; i < Lastlevel.Length; i++, j += 2)
+                {
+                    Lastlevel[i].ConnectInput1(Inputs[j]);
+                    Lastlevel[i].ConnectInput2(Inputs[j + 1]);
+                }
+            }
+
+            private void ConnectControls()
+            {
+                for (int i = 0; i < ControlBits; i++)
+                {
+                    MuxGate[] level = GetLevel(ControlBits - 1 - i);
+                    foreach (MuxGate gate in level)
+                    {
+                        gate.ConnectControl(Controls[i]);
+                    }
+                }
+            }
+
+            private MuxGate[] GetLevel(int level)
+            {
+                MuxGate[] output = new MuxGate[(int)Math.Pow(2, level)];
+
+                int start = 0;
+                for (int i = 0; i < level; i++)
+                {
+                    start = start * 2 + 1;
+                }
+                int end = start * 2;
+                for (int i = start, j = 0; i <= end; i++, j++)
+                {
+                    output[j] = gates[i];
+                }
+                return output;
+            }
+        }
+        #endregion
+        
+        private MultiBitMux Jump_Mux;
 
         private void ConnectControls()
         {
@@ -143,8 +259,34 @@ namespace Machine
             MemoryWrite.ConnectInput(MemoryWrite_AndGate.Output);
 
             //8. create inputs for jump mux
+            JGT = new NotGate();
+            JGT_Or = new OrGate();
+            JGT_Or.ConnectInput1(m_gALU.Negative);
+            JGT_Or.ConnectInput2(m_gALU.Zero);
+            JGT.ConnectInput(JGT_Or.Output);
+            JEQ = new Wire();
+            JEQ.ConnectInput(m_gALU.Zero);
+            JLT_Or = new OrGate();
+            JLT_Or.ConnectInput1(JEQ);
+            JLT_Or.ConnectInput2(JGT_Or.Output);
+            JLT = new NotGate();
+            JLT.ConnectInput(JLT_Or.Output);
+            JGE = new OrGate();
+            JGE.ConnectInput1(JEQ);
+            JGE.ConnectInput2(JGT.Output);
+            JLE = new OrGate();
+            JLE.ConnectInput1(JEQ);
+            JLE.ConnectInput2(JLT.Output);
+            JNE = new NotGate();
+            JNE.ConnectInput(JEQ);
+            JMP = new Wire();
+            JMP.Value = 1;
 
             //9. connect jump mux (this is the most complicated part)
+            Jump_Mux = new MultiBitMux(3);
+
+            
+
 
             //10. connect PC load control
         }
