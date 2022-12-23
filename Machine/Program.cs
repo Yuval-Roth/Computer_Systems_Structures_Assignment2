@@ -42,7 +42,7 @@ namespace Machine
             machine.Data[1] = 15;
             DateTime dtStart = DateTime.Now;
             machine.Reset();
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 machine.CPU.PrintState();
                 Console.WriteLine();
