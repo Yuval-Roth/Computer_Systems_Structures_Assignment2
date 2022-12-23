@@ -22,8 +22,8 @@ namespace Machine
                 //"MaxL.hack",
                 //"Product.hack",
                 //"ScreenExample.hack",
-                "SimpleLoop.hack",
-                //"Sum100To200.hack",
+                //"SimpleLoop.hack",
+                "Sum100To200.hack",
                 //"TestJumping.hack",
 
             };
@@ -37,12 +37,12 @@ namespace Machine
         private static void RunProgram(string FileName)
         {
             Machine16 machine = new Machine16(false, true);
-            machine.Code.LoadFromFile(@"C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Binary Code\"+FileName);
+            machine.Code.LoadFromFile(@"BinaryCode\"+FileName);
             machine.Data[0] = 100;
             machine.Data[1] = 15;
             DateTime dtStart = DateTime.Now;
             machine.Reset();
-            for (int i = 0; i < machine.Code.AddressSize; i++)
+            for (int i = 0; i < 200; i++)
             {
                 machine.CPU.PrintState();
                 Console.WriteLine();

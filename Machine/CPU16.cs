@@ -96,8 +96,9 @@ namespace Machine
         private NotGate JGT;
         private OrGate JGT_Or;
         private Wire JEQ;
-        private OrGate JLT_Or;
-        private NotGate JLT;
+        //private OrGate JLT_Or;
+        //private NotGate JLT;
+        private Wire JLT;
         private OrGate JGE;
         private OrGate JLE;
         private NotGate JNE;
@@ -274,24 +275,21 @@ namespace Machine
             MemoryWrite.ConnectInput(MemoryWrite_AndGate.Output);
 
             //8. create inputs for jump mux
-            JGT = new NotGate();
-            JGT_Or = new OrGate();
-            JGT_Or.ConnectInput1(m_gALU.Negative);
-            JGT_Or.ConnectInput2(m_gALU.Zero);
-            JGT.ConnectInput(JGT_Or.Output);
             JEQ = new Wire();
             JEQ.ConnectInput(m_gALU.Zero);
-            JLT_Or = new OrGate();
-            JLT_Or.ConnectInput1(JEQ);
-            JLT_Or.ConnectInput2(JGT_Or.Output);
-            JLT = new NotGate();
-            JLT.ConnectInput(JLT_Or.Output);
+            JLT = new Wire();
+            JLT.ConnectInput(m_gALU.Negative);
+            JGT = new NotGate();
+            JGT_Or = new OrGate();
+            JGT_Or.ConnectInput1(JLT);
+            JGT_Or.ConnectInput2(JEQ);
+            JGT.ConnectInput(JGT_Or.Output);
             JGE = new OrGate();
             JGE.ConnectInput1(JEQ);
             JGE.ConnectInput2(JGT.Output);
             JLE = new OrGate();
             JLE.ConnectInput1(JEQ);
-            JLE.ConnectInput2(JLT.Output);
+            JLE.ConnectInput2(JLT);
             JNE = new NotGate();
             JNE.ConnectInput(JEQ);
             JMP = new Wire();
@@ -302,7 +300,7 @@ namespace Machine
             Jump_Mux.ConnectInput(1, JGT.Output);
             Jump_Mux.ConnectInput(2, JEQ);
             Jump_Mux.ConnectInput(3, JGE.Output);
-            Jump_Mux.ConnectInput(4, JLT.Output);
+            Jump_Mux.ConnectInput(4, JLT);
             Jump_Mux.ConnectInput(5, JNE.Output);
             Jump_Mux.ConnectInput(6, JLE.Output);
             Jump_Mux.ConnectInput(7, JMP);

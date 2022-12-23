@@ -61,3 +61,13 @@ C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\obj\Debug\Mac
 C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\obj\Debug\Machine.csproj.CoreCompileInputs.cache
 C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\obj\Debug\Machine.exe
 C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\obj\Debug\Machine.pdb
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\bin\Debug\BinaryCode\Add.hack
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\bin\Debug\BinaryCode\Add01To2.hack
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\bin\Debug\BinaryCode\Copy1To0.hack
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\bin\Debug\BinaryCode\Max.hack
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\bin\Debug\BinaryCode\MaxL.hack
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\bin\Debug\BinaryCode\Product.hack
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\bin\Debug\BinaryCode\ScreenExample.hack
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\bin\Debug\BinaryCode\SimpleLoop.hack
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\bin\Debug\BinaryCode\Sum100To200.hack
+C:\Users\Yuval\git\Computer_Systems_Structures_Assignment2\Machine\bin\Debug\BinaryCode\TestJumping.hack
