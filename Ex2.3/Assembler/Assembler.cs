@@ -158,17 +158,8 @@ namespace Assembler
                 {
                     //translate an A command into a sequence of bits
 
-                    string output = "";
                     int num = int.Parse(sLine.Substring(1));
-                    while(num > 0) 
-                    {
-                        output = num % 2 + output;
-                        num /= 2;
-                    }
-                    while(output.Length < 16)
-                    {
-                        output = "0" + output;
-                    }
+                    string output = ToBinary(num);
                     lAfterPass.Add(output);
                 }
                 else if (IsCCommand(sLine))
