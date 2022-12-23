@@ -137,6 +137,19 @@ namespace Assembler
                 if (IsACommand(sLine))
                 {
                     //translate an A command into a sequence of bits
+
+                    string output = "";
+                    int num = int.Parse(sLine.Substring(1));
+                    while(num > 0) 
+                    {
+                        output = num % 2 + output;
+                        num /= 2;
+                    }
+                    while(output.Length < 16)
+                    {
+                        output = "0" + output;
+                    }
+                    lAfterPass.Add(output);
                 }
                 else if (IsCCommand(sLine))
                 {
@@ -144,6 +157,20 @@ namespace Assembler
                     GetCommandParts(sLine, out sDest, out sControl, out sJmp);
                     //translate an C command into a sequence of bits
                     //take a look at the dictionaries m_dControl, m_dJmp, and where they are initialized (InitCommandDictionaries), to understand how to you them here
+                    string output = "1000";
+                    for(int j = 0; i< m_dControl[sControl].Length;i++)
+                    {
+                        output += m_dControl[sControl][j];
+                    }
+                    for (int j = 0; i < m_dDest[sDest].Length; i++)
+                    {
+                        output += m_dDest[sDest][j];
+                    }
+                    for (int j = 0; i < m_dJmp[sJmp].Length; i++)
+                    {
+                        output += m_dJmp[sJmp][j];
+                    }
+                    lAfterPass.Add(output);
                 }
                 else
                     throw new FormatException("Cannot parse line " + i + ": " + lLines[i]);
