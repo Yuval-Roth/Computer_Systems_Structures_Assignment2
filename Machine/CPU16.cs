@@ -1,7 +1,6 @@
 ﻿using SimpleComponents;
 using System;
-using System.Windows.Forms;
-using System.Xml;
+using System.Runtime.InteropServices;
 
 namespace Machine
 {
@@ -84,11 +83,10 @@ namespace Machine
 
             ConnectControls();
         }
-        
+
         //Add gates for control implementation here
 
-        private BitwiseMux A_Input_Mux;
-        private BitwiseMux A_Or_M_Mux;
+        private AndGate Mux2_Control;
         private WireSet ALU_Control;
         private AndGate D_Load_AndGate;
         private OrGate A_Load_OrGate;
@@ -149,7 +147,7 @@ namespace Machine
             /// <param name="Input">Input bit at Index</param>
             public void ConnectInput(int i, Wire Input)
             {
-                Inputs[i] = Input;
+                Inputs[i].ConnectInput(Input);
             }
 
             /// <summary>
@@ -160,7 +158,7 @@ namespace Machine
             /// <param name="Control">Control bit at Index</param>
             public void ConnectControl(int i, Wire Control)
             {
-                Controls[i] = Control;
+                Controls[i].ConnectInput(Control);
             }
 
             private void BuildHeap(int current)
@@ -227,22 +225,21 @@ namespace Machine
         #endregion
         
         private MultiwayMux Jump_Mux;
+        private AndGate PC_Load_And;
 
         private void ConnectControls()
         {
             //1. connect control of mux 1 (selects entrance to register A)
-            A_Input_Mux = new BitwiseMux(Size);
-            A_Input_Mux.ConnectInput1(m_gALU.Output);
-            A_Input_Mux.ConnectInput2(Instruction);
+            m_gAMux.ConnectControl(Instruction[Type]);
 
             //2. connect control to mux 2 (selects A or M entrance to the ALU)
-            A_Or_M_Mux = new BitwiseMux(Size);
-            A_Or_M_Mux.ConnectInput1(MemoryOutput);
-            A_Or_M_Mux.ConnectInput2(A_Input_Mux.Output);
+            Mux2_Control = new AndGate();
+            Mux2_Control.ConnectInput1(Instruction[Type]);
+            Mux2_Control.ConnectInput2(Instruction[A]);
+            m_gMAMux.ConnectControl(Mux2_Control.Output);
 
             //3. consider all instruction bits only if C type instruction (MSB of instruction is 1)
-            A_Input_Mux.Control.ConnectInput(Instruction[Type]);
-            A_Or_M_Mux.Control.ConnectInput(Instruction[A]);
+
 
             //4. connect ALU control bits
             ALU_Control = new WireSet(5);
@@ -314,7 +311,10 @@ namespace Machine
             Jump_Mux.ConnectControl(2, Instruction[J2]);
 
             //10. connect PC load control
-            m_rPC.Load.ConnectInput(Jump_Mux.Output);
+            PC_Load_And = new AndGate();
+            PC_Load_And.ConnectInput1(Jump_Mux.Output);
+            PC_Load_And.ConnectInput2(Instruction[Type]);
+            m_rPC.Load.ConnectInput(PC_Load_And.Output);
         }
 
 

@@ -22,7 +22,7 @@ namespace Machine
                 //"MaxL.hack",
                 //"Product.hack",
                 //"ScreenExample.hack",
-                //"SimpleLoop.hack",
+                "SimpleLoop.hack",
                 //"Sum100To200.hack",
                 //"TestJumping.hack",
 
