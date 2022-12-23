@@ -14,9 +14,11 @@ namespace Assembler
         private Dictionary<string, int[]> m_dControl, m_dJmp, m_dDest; //these dictionaries map command mnemonics to machine code - they are initialized at the bottom of the class
 
         //more data structures here (symbol map, ...)
+        private Dictionary<string, int> labels;
 
         public Assembler()
         {
+            labels = new Dictionary<string, int>();
             InitCommandDictionaries();
         }
 
@@ -103,6 +105,8 @@ namespace Assembler
         //second pass - record all symbols - labels and variables
         private void CreateSymbolTable(List<string> lLines)
         {
+            List<string> linesToRemove = new List<string>();
+            int labelLineCount = 0;
             string sLine = "";
             for (int i = 0; i < lLines.Count; i++)
             {
@@ -111,10 +115,18 @@ namespace Assembler
                 {
                     //record label in symbol table
                     //do not add the label line to the result
+                    labels.Add(sLine.Substring(1, sLine.Length-2),i-labelLineCount++);
+                    linesToRemove.Add(sLine);
                 }
                 else if (IsACommand(sLine))
                 {
                     //may contain a variable - if so, record it to the symbol table (if it doesn't exist there yet...)
+                    if("0123456789".IndexOf(sLine[0]) == -1)
+                    {
+                        string symbol = sLine.Substring(1);
+                        if (labels.ContainsKey(symbol) == false)
+                            labels.Add(symbol, 0);
+                    }
                 }
                 else if (IsCCommand(sLine))
                 {
@@ -123,12 +135,20 @@ namespace Assembler
                 else
                     throw new FormatException("Cannot parse line " + i + ": " + lLines[i]);
             }
-          
+            foreach (string line in linesToRemove)
+            {
+                linesToRemove.Remove(line);
+            }
+
         }
         
         //third pass - translate lines into machine code, replacing symbols with numbers
         private List<string> TranslateAssemblyToMachineCode(List<string> lLines)
         {
+
+            //TODO - finish this
+
+
             string sLine = "";
             List<string> lAfterPass = new List<string>();
             for (int i = 0; i < lLines.Count; i++)
