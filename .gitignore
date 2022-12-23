@@ -1,2 +1,4 @@
 *.zip
 Machine/.vs/*
+Machine/bin/*
+Machine/obj/*
