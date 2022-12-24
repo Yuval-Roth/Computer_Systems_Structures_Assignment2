@@ -75,7 +75,7 @@ namespace Assembler
                 if (sLine == "")
                     continue;
                 //if the line contains a macro, expand it, otherwise the line remains the same
-                List<string> lExpanded = ExapndMacro(sLine);
+                List<string> lExpanded = ExapndMacro(sLine,i);
                 //we may get multiple lines from a macro expansion
                 foreach (string sExpanded in lExpanded)
                 {
@@ -86,7 +86,7 @@ namespace Assembler
         }
 
         //expand a single macro line
-        private List<string> ExapndMacro(string sLine)
+        private List<string> ExapndMacro(string sLine,int lineNumber)
         {
             List<string> lExpanded = new List<string>();
 
@@ -96,6 +96,86 @@ namespace Assembler
                 GetCommandParts(sLine, out sDest, out sCompute, out sJmp);
                 //your code here - check for indirect addessing and for jmp shortcuts
                 //read the word file to see all the macros you need to support
+
+                if (sDest == "" & sJmp == "")
+                {
+                    switch (sLine.Substring(sLine.Length-3))
+                    {
+                        case "++":
+                            lExpanded.Add("@" + sLine.Substring(0, sLine.Length - 2));
+                            lExpanded.Add("A=M");
+                            lExpanded.Add("M=M+1");
+                            break;
+
+                        case "--":
+                            lExpanded.Add("@" + sLine.Substring(0, sLine.Length - 2));
+                            lExpanded.Add("A=M");
+                            lExpanded.Add("M=M-1");
+                            break;
+                        default:
+                            throw new AssemblerException(lineNumber, sLine, "invalid compute command: " + sCompute);
+                    }
+                }
+                else if(sDest != "" & sJmp == "")
+                {
+                    string type = "=";
+                    if (m_dControl.ContainsKey(sCompute) == false)
+                    {
+                        type = type + "label";
+                    }
+                    else
+                    {
+                        type = type + ""
+                    }
+
+
+
+
+
+
+
+
+                        //if (labels.ContainsKey(sCompute))
+                        //{
+                            
+                        //}
+                        //else throw new AssemblerException(lineNumber, sLine, "invalid compute command: " + sCompute);
+
+                    //if (m_dDest.ContainsKey(sDest) == false)
+                    //{
+                    //    if (labels.ContainsKey(sDest))
+                    //    {
+                    //        lExpanded.Add("@" + m_dControl);
+                    //        lExpanded.Add("A=M");
+                    //        lExpanded.Add(sDest + "=M");
+                    //    }
+                    //}
+                    //else throw new AssemblerException(lineNumber, sLine, "invalid dest command: " + sDest);
+
+                    ////switch (sLine.Substring(sLine.Length - 3))
+                    ////{
+                    ////    case "A":
+                    ////        lExpanded.Add("@" + m_dControl);
+                    ////        lExpanded.Add("A=M");
+                    ////        lExpanded.Add("A=M");
+                    ////        break;
+
+                    ////    case "D":
+                    ////        lExpanded.Add("@" + m_dControl);
+                    ////        lExpanded.Add("A=M");
+                    ////        lExpanded.Add("D=M");
+                    ////        break;
+
+                    ////    default:
+                    ////        if (labels.ContainsKey(sDest))
+                    ////        {
+                    ////            lExpanded.Add("@" + m_dControl);
+                    ////            lExpanded.Add("A=M");
+                    ////            lExpanded.Add(sDest+"=M");
+                    ////        }
+                    ////        break;
+                    ////}
+                }
             }
             if (lExpanded.Count == 0)
                 lExpanded.Add(sLine);
@@ -105,10 +185,9 @@ namespace Assembler
         //second pass - record all symbols - labels and variables
         private void CreateSymbolTable(List<string> lLines)
         {
-
             List<int> linesToRemove = new List<int>();
-            int labelLineCount = 0;
             int variableCount = 0;
+            int realIndex = 0;
             string sLine = "";
             for (int i = 0; i < lLines.Count; i++)
             {
@@ -117,7 +196,7 @@ namespace Assembler
                 {
                     //record label in symbol table
                     //do not add the label line to the result
-                    labels.Add(sLine.Substring(1, sLine.Length-2),i-labelLineCount++);
+                    labels.Add(sLine.Substring(1, sLine.Length-2),realIndex);
                     linesToRemove.Add(i);
                 }
                 else if (IsACommand(sLine))
@@ -128,12 +207,14 @@ namespace Assembler
                         string symbol = sLine.Substring(1);
                         if (labels.ContainsKey(symbol) == false)
                             labels.Add(symbol, VARIABLES_START_INDEX + variableCount++);
-                        else throw new AssemblerException;
+                        else throw new AssemblerException(i,sLine,"Multiple declarations of symbol "+symbol);
                     }
+                    realIndex++;
                 }
                 else if (IsCCommand(sLine))
                 {
                     //do nothing here
+                    realIndex++;
                 }
                 else
                     throw new FormatException("Cannot parse line " + i + ": " + lLines[i]);
