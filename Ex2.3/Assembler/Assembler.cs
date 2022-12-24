@@ -97,84 +97,44 @@ namespace Assembler
                 //your code here - check for indirect addessing and for jmp shortcuts
                 //read the word file to see all the macros you need to support
 
-                if (sDest == "" & sJmp == "")
+
+
+                if (sCompute == "++" | sCompute == "--")
                 {
-                    switch (sLine.Substring(sLine.Length-3))
+                    lExpanded.Add("@" + sDest);
+                    lExpanded.Add("A=M");
+                    switch (sCompute)
                     {
                         case "++":
-                            lExpanded.Add("@" + sLine.Substring(0, sLine.Length - 2));
-                            lExpanded.Add("A=M");
                             lExpanded.Add("M=M+1");
                             break;
 
                         case "--":
-                            lExpanded.Add("@" + sLine.Substring(0, sLine.Length - 2));
-                            lExpanded.Add("A=M");
                             lExpanded.Add("M=M-1");
                             break;
-                        default:
-                            throw new AssemblerException(lineNumber, sLine, "invalid compute command: " + sCompute);
                     }
                 }
-                else if(sDest != "" & sJmp == "")
+                else if (sDest != "" & sJmp == "")
                 {
-                    string type = "=";
+                    //identify the macro type
+                    string left = "dest", right = "compute";
                     if (m_dControl.ContainsKey(sCompute) == false)
                     {
-                        type = type + "label";
+                        //direct addressing
+                        if ("0123456789".IndexOf(sCompute[0]) == -1)
+                        {
+                            right = "direct";
+                        }
+                        //immediate addressing
+                        else
+                                {
+                                    right = "immediate";
+                                }
                     }
-                    else
+                    if (m_dDest.ContainsKey(sDest) == false)
                     {
-                        type = type + ""
+                        left = "direct";
                     }
-
-
-
-
-
-
-
-
-                        //if (labels.ContainsKey(sCompute))
-                        //{
-                            
-                        //}
-                        //else throw new AssemblerException(lineNumber, sLine, "invalid compute command: " + sCompute);
-
-                    //if (m_dDest.ContainsKey(sDest) == false)
-                    //{
-                    //    if (labels.ContainsKey(sDest))
-                    //    {
-                    //        lExpanded.Add("@" + m_dControl);
-                    //        lExpanded.Add("A=M");
-                    //        lExpanded.Add(sDest + "=M");
-                    //    }
-                    //}
-                    //else throw new AssemblerException(lineNumber, sLine, "invalid dest command: " + sDest);
-
-                    ////switch (sLine.Substring(sLine.Length - 3))
-                    ////{
-                    ////    case "A":
-                    ////        lExpanded.Add("@" + m_dControl);
-                    ////        lExpanded.Add("A=M");
-                    ////        lExpanded.Add("A=M");
-                    ////        break;
-
-                    ////    case "D":
-                    ////        lExpanded.Add("@" + m_dControl);
-                    ////        lExpanded.Add("A=M");
-                    ////        lExpanded.Add("D=M");
-                    ////        break;
-
-                    ////    default:
-                    ////        if (labels.ContainsKey(sDest))
-                    ////        {
-                    ////            lExpanded.Add("@" + m_dControl);
-                    ////            lExpanded.Add("A=M");
-                    ////            lExpanded.Add(sDest+"=M");
-                    ////        }
-                    ////        break;
-                    ////}
                 }
             }
             if (lExpanded.Count == 0)
@@ -296,6 +256,24 @@ namespace Assembler
                 sDest = sLine.Substring(0, idx);
                 sLine = sLine.Substring(idx + 1);
             }
+            else if (sLine.Contains("++"))
+            {
+                int idx = sLine.IndexOf("++");
+                sDest = sLine.Substring(0, idx);
+                if (sLine.Substring(idx + 2) != "") throw new FormatException("Cannot parse line: " + sLine);
+                sControl = "++";
+                sJmp = "";
+                return;
+            }
+            else if (sLine.Contains("--"))
+            {
+                int idx = sLine.IndexOf("--");
+                sDest = sLine.Substring(0, idx);
+                if (sLine.Substring(idx + 2) != "") throw new FormatException("Cannot parse line: " + sLine);
+                sControl = "--";
+                sJmp = "";
+                return;
+            }
             else
                 sDest = "";
             if (sLine.Contains(';'))
@@ -303,7 +281,6 @@ namespace Assembler
                 int idx = sLine.IndexOf(';');
                 sControl = sLine.Substring(0, idx);
                 sJmp = sLine.Substring(idx + 1);
-
             }
             else
             {
