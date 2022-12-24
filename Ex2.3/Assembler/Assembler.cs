@@ -10,7 +10,7 @@ namespace Assembler
     public class Assembler
     {
         private const int WORD_SIZE = 16;
-
+        private const int VARIABLES_START_INDEX = 16;
         private Dictionary<string, int[]> m_dControl, m_dJmp, m_dDest; //these dictionaries map command mnemonics to machine code - they are initialized at the bottom of the class
 
         //more data structures here (symbol map, ...)
@@ -105,8 +105,10 @@ namespace Assembler
         //second pass - record all symbols - labels and variables
         private void CreateSymbolTable(List<string> lLines)
         {
-            List<string> linesToRemove = new List<string>();
+
+            List<int> linesToRemove = new List<int>();
             int labelLineCount = 0;
+            int variableCount = 0;
             string sLine = "";
             for (int i = 0; i < lLines.Count; i++)
             {
@@ -116,16 +118,17 @@ namespace Assembler
                     //record label in symbol table
                     //do not add the label line to the result
                     labels.Add(sLine.Substring(1, sLine.Length-2),i-labelLineCount++);
-                    linesToRemove.Add(sLine);
+                    linesToRemove.Add(i);
                 }
                 else if (IsACommand(sLine))
                 {
                     //may contain a variable - if so, record it to the symbol table (if it doesn't exist there yet...)
-                    if("0123456789".IndexOf(sLine[0]) == -1)
+                    if("0123456789".IndexOf(sLine[1]) == -1)
                     {
                         string symbol = sLine.Substring(1);
                         if (labels.ContainsKey(symbol) == false)
-                            labels.Add(symbol, 0);
+                            labels.Add(symbol, VARIABLES_START_INDEX + variableCount++);
+                        else throw new AssemblerException;
                     }
                 }
                 else if (IsCCommand(sLine))
@@ -135,9 +138,9 @@ namespace Assembler
                 else
                     throw new FormatException("Cannot parse line " + i + ": " + lLines[i]);
             }
-            foreach (string line in linesToRemove)
+            for(int i = linesToRemove.Count - 1; i >= 0; i--)
             {
-                linesToRemove.Remove(line);
+                lLines.RemoveAt(i);
             }
 
         }
@@ -145,10 +148,6 @@ namespace Assembler
         //third pass - translate lines into machine code, replacing symbols with numbers
         private List<string> TranslateAssemblyToMachineCode(List<string> lLines)
         {
-
-            //TODO - finish this
-
-
             string sLine = "";
             List<string> lAfterPass = new List<string>();
             for (int i = 0; i < lLines.Count; i++)
@@ -156,11 +155,20 @@ namespace Assembler
                 sLine = lLines[i];
                 if (IsACommand(sLine))
                 {
+                    string output;
                     //translate an A command into a sequence of bits
-
-                    int num = int.Parse(sLine.Substring(1));
-                    string output = ToBinary(num);
+                    if ("0123456789".IndexOf(sLine[1]) == -1)
+                    {
+                        string symbol = sLine.Substring(1);
+                        output = ToBinary(labels[symbol]);
+                    }
+                    else
+                    { 
+                        int num = int.Parse(sLine.Substring(1));
+                        output = ToBinary(num);
+                    }
                     lAfterPass.Add(output);
+
                 }
                 else if (IsCCommand(sLine))
                 {
@@ -168,19 +176,7 @@ namespace Assembler
                     GetCommandParts(sLine, out sDest, out sControl, out sJmp);
                     //translate an C command into a sequence of bits
                     //take a look at the dictionaries m_dControl, m_dJmp, and where they are initialized (InitCommandDictionaries), to understand how to you them here
-                    string output = "1000";
-                    for(int j = 0; i< m_dControl[sControl].Length;i++)
-                    {
-                        output += m_dControl[sControl][j];
-                    }
-                    for (int j = 0; i < m_dDest[sDest].Length; i++)
-                    {
-                        output += m_dDest[sDest][j];
-                    }
-                    for (int j = 0; i < m_dJmp[sJmp].Length; i++)
-                    {
-                        output += m_dJmp[sJmp][j];
-                    }
+                    string output = "1000"+ToString(m_dControl[sControl])+ToString(m_dDest[sDest])+ToString(m_dJmp[sJmp]);
                     lAfterPass.Add(output);
                 }
                 else
