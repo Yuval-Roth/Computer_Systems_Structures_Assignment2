@@ -36,7 +36,7 @@ namespace Assembler
             //translate to machine code
             List<string> lTranslated = TranslateAssemblyFile(lLines);
             //write the output to the machine code file
-            StreamWriter sw = new StreamWriter(sOutputMachineCodeFile);
+            StreamWriter sw = new StreamWriter(sOutputMachineCodeFile,false);
             foreach (string sLine in lTranslated)
                 sw.WriteLine(sLine);
             sw.Close();
@@ -97,8 +97,7 @@ namespace Assembler
                 //your code here - check for indirect addessing and for jmp shortcuts
                 //read the word file to see all the macros you need to support
 
-
-
+                // increment / decrement
                 if (sCompute == "++" | sCompute == "--")
                 {
                     lExpanded.Add("@" + sDest);
@@ -114,6 +113,8 @@ namespace Assembler
                             break;
                     }
                 }
+                
+                // all kinds of direct/immediate addressing
                 else if (sDest != "" & sJmp == "")
                 {
                     //identify the macro type
@@ -127,14 +128,73 @@ namespace Assembler
                         }
                         //immediate addressing
                         else
-                                {
-                                    right = "immediate";
-                                }
+                        {
+                            right = "immediate";
+                        }
                     }
                     if (m_dDest.ContainsKey(sDest) == false)
                     {
                         left = "direct";
                     }
+
+                    //handle the macros
+
+                    // comp is a number
+                    if (right == "immediate")
+                    {
+                        //dest is A/M/D
+                        if (left == "dest")
+                        {
+                            lExpanded.Add("@" + sCompute);
+                            lExpanded.Add(sDest + "=A");
+                        }
+
+                        //dest is a label
+                        else if (left == "direct")
+                        {
+                            lExpanded.Add("@" + sCompute);
+                            lExpanded.Add("D=A");
+                            lExpanded.Add("@" + sDest);
+                            lExpanded.Add("M=D");
+                        }
+                    }
+
+                    //comp is a label
+                    else if (right == "direct")
+                    {
+                        //dest is A/M/D
+                        if (left == "dest")
+                        {
+                            lExpanded.Add("@" + sCompute);
+                            lExpanded.Add(sDest + "=M");
+                        
+                        }
+                        //dest is a label
+                        else if (left == "direct")
+                        {
+                            lExpanded.Add("@" + sCompute);
+                            lExpanded.Add("D=M");
+                            lExpanded.Add("@" + sDest);
+                            lExpanded.Add("M=D");
+                        }
+                    }
+
+                    //comp is A/M/D
+                    else if (right == "compute")
+                    {
+                        //dest is a label
+                        if (left == "direct")
+                        {
+                            lExpanded.Add("@" + sDest);
+                            lExpanded.Add("M="+sCompute);
+                        }
+                    }
+                }
+                else if(sJmp != "" & sLine.Contains(':'))
+                {
+                    int idx = sJmp.IndexOf(':');
+                    lExpanded.Add("@" + sJmp.Substring(idx+1));
+                    lExpanded.Add(sCompute + ";" + sJmp.Substring(0, idx));
                 }
             }
             if (lExpanded.Count == 0)
@@ -146,7 +206,6 @@ namespace Assembler
         private void CreateSymbolTable(List<string> lLines)
         {
             List<int> linesToRemove = new List<int>();
-            int variableCount = 0;
             int realIndex = 0;
             string sLine = "";
             for (int i = 0; i < lLines.Count; i++)
@@ -156,8 +215,24 @@ namespace Assembler
                 {
                     //record label in symbol table
                     //do not add the label line to the result
-                    labels.Add(sLine.Substring(1, sLine.Length-2),realIndex);
-                    linesToRemove.Add(i);
+                    string label = sLine.Substring(1, sLine.Length - 2);
+                    if (labels.ContainsKey(label))
+                    {
+                        if (labels[label] == -1)
+                        {
+                            labels[label] = realIndex;
+                            linesToRemove.Add(i);
+                        }
+                        else
+                        {
+                            throw new AssemblerException(i, sLine, "Multiple declarations of symbol " + label);
+                        }
+                    }
+                    else
+                    {
+                        labels.Add(label,realIndex);
+                        linesToRemove.Add(i);
+                    }
                 }
                 else if (IsACommand(sLine))
                 {
@@ -166,8 +241,11 @@ namespace Assembler
                     {
                         string symbol = sLine.Substring(1);
                         if (labels.ContainsKey(symbol) == false)
-                            labels.Add(symbol, VARIABLES_START_INDEX + variableCount++);
-                        else throw new AssemblerException(i,sLine,"Multiple declarations of symbol "+symbol);
+                        {
+                            labels.Add(symbol, -1);
+                            //variableCount++;
+                        }
+                        //else throw new AssemblerException(i,sLine,"Multiple declarations of symbol "+symbol);
                     }
                     realIndex++;
                 }
@@ -179,9 +257,20 @@ namespace Assembler
                 else
                     throw new FormatException("Cannot parse line " + i + ": " + lLines[i]);
             }
+            int variableCount = 0;
+            var iter = labels.GetEnumerator();
+            while (iter.MoveNext())
+            {
+                if (iter.Current.Value == -1)
+                {
+                    labels[iter.Current.Key] = VARIABLES_START_INDEX + variableCount;
+                    variableCount++;
+                }
+            }
+            iter.Dispose();
             for(int i = linesToRemove.Count - 1; i >= 0; i--)
             {
-                lLines.RemoveAt(i);
+                lLines.RemoveAt(linesToRemove[i]);
             }
 
         }
@@ -223,6 +312,7 @@ namespace Assembler
                 else
                     throw new FormatException("Cannot parse line " + i + ": " + lLines[i]);
             }
+            labels.Clear();
             return lAfterPass;
         }
 
@@ -259,8 +349,8 @@ namespace Assembler
             else if (sLine.Contains("++"))
             {
                 int idx = sLine.IndexOf("++");
-                sDest = sLine.Substring(0, idx);
                 if (sLine.Substring(idx + 2) != "") throw new FormatException("Cannot parse line: " + sLine);
+                sDest = sLine.Substring(0, idx);
                 sControl = "++";
                 sJmp = "";
                 return;
@@ -268,8 +358,8 @@ namespace Assembler
             else if (sLine.Contains("--"))
             {
                 int idx = sLine.IndexOf("--");
-                sDest = sLine.Substring(0, idx);
                 if (sLine.Substring(idx + 2) != "") throw new FormatException("Cannot parse line: " + sLine);
+                sDest = sLine.Substring(0, idx);
                 sControl = "--";
                 sJmp = "";
                 return;
