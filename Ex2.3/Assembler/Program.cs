@@ -37,6 +37,8 @@ namespace Assembler
             {
                 a.TranslateAssemblyFile(asmPath + file + ".asm", hackPath + file + ".hack");
             }
+
+            Console.ReadLine();
         }
     }
 }

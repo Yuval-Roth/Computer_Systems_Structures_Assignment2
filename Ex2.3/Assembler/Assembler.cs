@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -101,7 +102,7 @@ namespace Assembler
                 if (sCompute == "++" | sCompute == "--")
                 {
                     lExpanded.Add("@" + sDest);
-                    lExpanded.Add("A=M");
+                    //lExpanded.Add("A=M");
                     switch (sCompute)
                     {
                         case "++":
@@ -257,22 +258,36 @@ namespace Assembler
                 else
                     throw new FormatException("Cannot parse line " + i + ": " + lLines[i]);
             }
-            int variableCount = 0;
+
+            LinkedList<string> toAssign = new LinkedList<string>();
             var iter = labels.GetEnumerator();
             while (iter.MoveNext())
             {
                 if (iter.Current.Value == -1)
                 {
-                    labels[iter.Current.Key] = VARIABLES_START_INDEX + variableCount;
-                    variableCount++;
+                    toAssign.AddLast(iter.Current.Key);
                 }
             }
-            iter.Dispose();
-            for(int i = linesToRemove.Count - 1; i >= 0; i--)
+
+            int labelCounter = 0;
+            foreach (string label in toAssign)
             {
+                labels[label] = VARIABLES_START_INDEX + labelCounter++;
+                Console.WriteLine("symbol " + label + " at memory index " + labels[label]);
+            }
+
+            for (int i = linesToRemove.Count - 1; i >= 0; i--)
+            {
+                Console.WriteLine("label line " + lLines[linesToRemove[i]] +" at line " + (linesToRemove[i]- (linesToRemove.Count-1)));
                 lLines.RemoveAt(linesToRemove[i]);
             }
 
+            int num = 0;
+            foreach (string line in lLines)
+            {
+                Console.WriteLine(num+++") "+line);
+            }
+            Console.WriteLine("========================================================");
         }
         
         //third pass - translate lines into machine code, replacing symbols with numbers
@@ -321,7 +336,7 @@ namespace Assembler
         {
             string sBinary = "";
             for (int i = 0; i < aBits.Length; i++)
-                sBinary += aBits[i];
+                sBinary = aBits[i] + sBinary;
             return sBinary;
         }
 
